@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common'
-import { Author } from 'src/models/Author'
-
+import { InjectModel } from '@nestjs/mongoose'
+import { AuthorDto } from 'src/dto/author.dto'
+import { Author } from 'src/schema/author.schema'
+import { Model } from 'mongoose'
 @Injectable()
 export class AuthorService {
-  authors : Author[] = [
+  constructor(
+    @InjectModel(Author.name) private readonly authorModule: Model<Author>
+  ) {}
+
+  authors: AuthorDto[] = [
     {
       id: '628f533a0568d769ab021ac8',
       name: 'Ngo Tat To',
@@ -22,16 +28,16 @@ export class AuthorService {
   ]
 
   getAllAuthor() {
-    return this.authors
+    return this.authorModule.find()
   }
 
-  getAuthor(id: string) {
-    return this.authors.find((x) => x.id === id)
+  async getAuthor(id: string) {
+    return await this.authorModule.findById(id)
   }
 
-  createAuthor(author: Author) {
-    this.authors.push(author)
+  async createAuthor(author: AuthorDto) {
+    const newAuthor = new this.authorModule(author)
 
-    return this.authors
+    return await newAuthor.save()
   }
 }

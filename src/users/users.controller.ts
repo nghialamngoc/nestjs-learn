@@ -20,6 +20,7 @@ export class UsersController {
     return this.userService.getUsers()
   }
 
+  // Class transformer
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('/:userName')
   getByUserName(@Param('userName') userName: string) {

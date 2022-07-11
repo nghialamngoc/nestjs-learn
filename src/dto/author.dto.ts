@@ -1,6 +1,13 @@
-import { IsOptional, IsString, IsNumber, IsNotEmpty, Min, Max } from 'class-validator'
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator'
 
-export class Author {
+export class AuthorDto {
   @IsOptional()
   @IsString()
   id: string
